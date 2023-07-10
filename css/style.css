@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+  }
+
+
+
+.full-board{
+    border: 5px solid grey;
+    background-color: grey;
+    height: 800px;
+    width: 450px;
+}
+
+.secret-codes{
+    border: 2px solid magenta;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.secret-codes > div{
+    border: 2px solid orange;
+    width: 85px; 
+    height: 85px;
+    border-radius: 50%;
+    justify-content: center;
+    align-content: space-between;
+    margin-bottom: 3px;
+}
+
+.player{
+    display: flex; 
+    justify-content: flex-start;
+
+}
+.marbles{
+    background-color: skyblue;
+    width: 325px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.marbles > div{
+    background-color: aliceblue;
+    height: 60px; 
+    width: 60px;
+    border-radius: 50%;
+}
+
+.pegs{
+    width: 100px;
+    float: left;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px; 
+    justify-items: center;
+    background-color: blueviolet;
+}
+
+.pegs > div{
+    background-color: red;
+    height: 40px;
+    width: 40px; 
+    border-radius: 50%;
+}
+
+.selectors{
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(5 , 1fr );
+    border: 2px solid red; 
+}
+
+.color-squares{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+.buttons{
+  grid-row-start: 5;
+}
+#clear{
+    grid-column-start: 1;
+}
+
+#submit{
+    grid-column-start: 2;
+}
+
+
+
+.color-squares > div{
+    border: 4px solid pink;
+    width: 100px;
+
+}
