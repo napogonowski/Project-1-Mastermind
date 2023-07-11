@@ -12,7 +12,7 @@ grid-template-columns: 1fr 1fr ;
 .full-board{
     border: 5px solid black;
     background-color: #65737E;
-    height: 800px;
+    height: 900px;
     width: 450px;
 }
 
@@ -39,15 +39,17 @@ grid-template-columns: 1fr 1fr ;
 
 }
 .marbles{
-    border: 3px solid black; 
     width: 325px;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    gap: 5px;
     justify-content: space-around;
     align-items: center;
 }
 
 .marbles > div{
-    background-color: aliceblue;
+    background-color: white;
     height: 60px; 
     width: 60px;
     border-radius: 50%;
@@ -58,16 +60,17 @@ grid-template-columns: 1fr 1fr ;
     float: left;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 3px; 
+    grid-template-rows: repeat(10, 1fr 1fr);
+    gap: 5px; 
     justify-items: center;
-    border: 3px solid black; 
+    margin-top: 5px;
+   
 }
 
 .pegs > div{
-    background-color: red;
-    height: 40px;
-    width: 40px; 
+    background-color: lightgray;
+    height: 35px;
+    width: 35px; 
     border-radius: 50%;
 }
 
