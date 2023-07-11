@@ -1,5 +1,6 @@
 /*----- constants -----*/
 const COLORS = {
+    '-1': 'white',
     '0': "#D30000",
     '1': "#0a53c9",
     '2': "#09b009",
@@ -40,7 +41,7 @@ submitBtn.addEventListener("click", checkChoice)
 clearBtn.addEventListener("click", clearChoice)
 
 
-colorSquares.forEach(function (colorSquare, colorIndex) {
+colorSquares.forEach((colorSquare, colorIndex) => {
     colorSquare.addEventListener("click", (event) => addColor(event, colorIndex))
 }); 
     
@@ -72,27 +73,15 @@ function init() {
         Math.floor(Math.random()* 6),
         Math.floor(Math.random()* 6)
     ];
-    console.log(secretCode);
+    //console.log(secretCode);
     render();
 }
 
 function render() {
-    console.log(board[0]);
-    board[0].forEach((value, idx) => {
-        // update the state
-        // array has new value. need to represent it visually 
-        // nested for each first goes over the array, then loop through the elements of the array/ 
-
-       marbelRows[idx].style.backgroundColor = COLORS[value];
-       
+    board[0].forEach((value, idx) => {    
+    marbelRows[idx].style.backgroundColor = COLORS[value];
     })
 };
-
-
-
-
-
-
 
 function checkChoice(e){
 
@@ -112,7 +101,10 @@ function addColor(e, colorIndex){
 // the color chosen should fill the firrst available row cell 
 
 function clearChoice(e){
-
+   board[0] = [-1, -1, -1, -1];
+   render();
+   board[0] = [];
 };
 
 // when clicked, the function should clear all previously filled marble cells. 
+// any time state is changed; call reneder 
