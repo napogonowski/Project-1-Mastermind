@@ -103,6 +103,7 @@ function renderPegs () {
         rowArr.forEach((cellVal, colIdx) => {
             const pegCellId = `r${rowIdx}p${colIdx}`;
             const pegCellEl = document.getElementById(pegCellId);
+            console.log(pegCellId, pegCellEl)
             pegCellEl.style.backgroundColor = PEGCOLORS[cellVal]
         });
     }); 
@@ -121,28 +122,40 @@ function renderHiddenEls () {
 function checkChoice(e) {
     let secondCheckArray;
     // console.log(board[currentRow]);
-  board[currentRow].forEach((value, index) => {
-    if (value === secretCode[index]){
-        pegs[currentRow].push('2');
-        secondCheckArray = board[currentRow].map(function (value) {
-             if( value !== secretCode[index]){
-                return value;
-             } else {
-                return null;
-             }
-        })
-    };
-  }) 
-    console.log(secondCheckArray)
-  if (secondCheckArray.includes(secretCode[0])) {
-        pegs[currentRow].push('1');
-    } else if (secondCheckArray.includes(secretCode[1])) {
-        pegs[currentRow].push('1');
-    } else if (secondCheckArray.includes(secretCode[2])) {
-        pegs[currentRow].push('1');
-     } else if (secondCheckArray.includes(secretCode[3])) {
+    board[currentRow].forEach((marble, marbleIndex) => {
+        if (marble === secretCode[marbleIndex]){
+            pegs[currentRow].push('2');
+        };
+    });
+    secondCheckArray = board[currentRow].map(function (value, valueIndex) {
+           // console.log(value);
+            if( value !== secretCode[valueIndex]){
+               return value;
+            } else {
+               return null;
+            }
+    //    })
+});
+
+
+    // console.log(secondCheckArray)
+    // attempted bug fix 
+    if (secondCheckArray === null){
+        return;
+    }
+    if (secondCheckArray.includes(secretCode[0])) {
         pegs[currentRow].push('1');
     }
+    if (secondCheckArray.includes(secretCode[1])) {
+        pegs[currentRow].push('1');
+    } 
+    if (secondCheckArray.includes(secretCode[2])) {
+        pegs[currentRow].push('1');
+     } 
+    if (secondCheckArray.includes(secretCode[3])) {
+        pegs[currentRow].push('1');
+    }
+    console.log('pegs', pegs[currentRow]);
     checkWin(); 
     currentRow ++; 
     render();
