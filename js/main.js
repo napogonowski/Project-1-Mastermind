@@ -11,7 +11,7 @@ const COLORS = {
 
 const PEGCOLORS = {
     "-1": 'lightgray', // think this is irellevant
-    '1': 'white',
+    '1': 'red',
     '2': 'black'
 }
 /// probably wont use this 
@@ -32,15 +32,14 @@ let secretCode; // code chosen by random computer
 /*----- cached elements  -----*/
 const clearBtn = document.querySelector("#clear");
 const submitBtn = document.querySelector("#submit");
-//const marbelCells = document.querySelectorAll("div.marbles > div");
 const colorSquares = document.querySelectorAll("div.color-squares");
 const pegCells = document.querySelectorAll("div.pegs > div");
 
 /*----- event listeners -----*/
 // submitting selection
-submitBtn.addEventListener("click", checkChoice)
+submitBtn.addEventListener("click", checkChoice);
 //clearing seleciton 
-clearBtn.addEventListener("click", clearChoice)
+clearBtn.addEventListener("click", clearChoice);
 
 
 colorSquares.forEach((colorSquare, colorIndex) => {
@@ -75,58 +74,81 @@ function init() {
         [],
         [],
         [],
-        [],
     ];
 // index of starting row 
     currentRow = 0;
     win = false; 
-    secretCode = [
-        Math.floor(Math.random()* 6),
-        Math.floor(Math.random()* 6),
-        Math.floor(Math.random()* 6),
-        Math.floor(Math.random()* 6)
-    ];
+    secretCode = [1,2,3,4]; 
+    // secretCode = [
+    //     Math.floor(Math.random()* 6),
+    //     Math.floor(Math.random()* 6),
+    //     Math.floor(Math.random()* 6),
+    //     Math.floor(Math.random()* 6)
+    // ];
     //console.log(secretCode);
     render();
 }
-// board[currentRow].forEach((value, idx) => {    
-//     marbelCells[idx * currentRow].style.backgroundColor = COLORS[value];
-// })
 
 function render() {
-    board.forEach(function (rowArr, rowIdx){
-        rowArr.forEach(function (cellVal, colIdx){
+    board.forEach((rowArr, rowIdx) => {
+        rowArr.forEach((cellVal, colIdx) => {
             const cellId = `r${rowIdx}m${colIdx}`;
             const cellEl = document.getElementById(cellId);
             cellEl.style.backgroundColor = COLORS[cellVal]
-
         
-            //cellEl.style.backgroundColor = COLORS[cellVal]
-        })
-    })
+        });
+    }); 
+    
+    pegs.forEach((rowArr, rowIdx) => {
+       // console.log(`this is the rowarr ${rowArr} this is the row index ${rowIdx}`)
+        rowArr.forEach((cellVal, colIdx) => {
+            //console.log(rowIdx, colIdx, cellVal)
+            const pegCellId = `r${rowIdx}p${colIdx}`;
+            //console.log(pegCellId)
+            const pegCellEl = document.getElementById(pegCellId);
+            pegCellEl.style.backgroundColor = PEGCOLORS[cellVal]
+        
+        });
+    }); 
+}
+
+function checkChoice(e) {
+// checking if code matches exactly
+  board[currentRow].forEach((value, index) => {
+    if (value === secretCode[index]){
+        pegs[currentRow].push('2')
+    };
+  }) 
+  if (board[currentRow].includes(secretCode[0])) {
+    pegs[currentRow].push('1');
+    } else if (board[currentRow].includes(secretCode[0])) {
+     pegs[currentRow].push('1');
+    } else if (board[currentRow].includes(secretCode[0])) {
+    pegs[currentRow].push('1');
+     } else if (board[currentRow].includes(secretCode[0])) {
+    pegs[currentRow].push('1');
+    }
+    checkWin(); 
+    currentRow ++; 
+    render();
 };
 
- function checkChoice(e){
-
- };
-
-// essentially winning logic 
-// we want to compare arrays to secret arrays 
-// if === win = true 
-// if correct vals (colors)/ in wrong spot = 1+s 
-// if correct val in correct idx = 2 
-// then push that array and render the pegs 
+function checkWin () {
+    if (pegs[currentRow] === [2,2,2,2]) {
+        win = true; 
+    }
+}
 
 
-function addColor(e, colorIndex){
+function addColor (e, colorIndex){
     if(board[currentRow].length >=4) return; 
     board[currentRow].push(colorIndex);
     render(); 
 };
     
-function clearChoice(e){
+
+function clearChoice (e) {
    board[currentRow] = [-1, -1, -1, -1];
    render();
-   board[currentRow] = [];
-};
-
+   board[currentRow] = []; 
+}
