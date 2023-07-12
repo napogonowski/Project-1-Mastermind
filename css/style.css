@@ -92,11 +92,15 @@ grid-template-columns: 1fr 1fr ;
     border-radius: 5%;
     padding: 3px;
 }
+#again{
+    grid-column: span 2;
+}
 
 .buttons{
   grid-row-start: 5;
   border-radius: 10%;
 }
+
 
 
 #c0{
