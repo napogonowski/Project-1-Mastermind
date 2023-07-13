@@ -1,5 +1,6 @@
 /*----- constants -----*/
 const COLORS = {
+    '': "white", 
     '-1': 'white',
     '0': "#D30000",
     '1': "#0a53c9",
@@ -10,6 +11,7 @@ const COLORS = {
 }
 
 const PEGCOLORS = {
+    "-1": 'lightgray',
     '1': 'red',
     '2': 'black'
 }
@@ -18,7 +20,7 @@ const PEGCOLORS = {
 let board; // player choices per turn 
 let pegs; // indicating if the choices are included in the secret code 
 let currentRow; 
-let win; // 4 positions 
+let hasWon; // 4 positions 
 let secretCode; // code chosen by random computer 
 
 
@@ -26,12 +28,13 @@ let secretCode; // code chosen by random computer
 const againBtn = document.getElementById('again');
 const clearBtn = document.querySelector("#clear");
 const submitBtn = document.querySelector("#submit");
+const messageEl = document.querySelector("h3")
 const colorSquares = document.querySelectorAll("div.color-squares");
 const pegCells = document.querySelectorAll("div.pegs > div");
 const secretCodeCells = document.querySelectorAll("div.secret-code > div")
 
 /*----- event listeners -----*/
-againBtn.addEventListener('click', init); 
+againBtn.addEventListener('click', clearGame); 
 // submitting selection
 submitBtn.addEventListener("click", checkChoice);
 //clearing seleciton 
@@ -46,16 +49,16 @@ init();
 // initialise all state, then call render; 
 function init() {
     board = [
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
+        [],//0
+        [],//1
+        [],//2
+        [],//3
+        [],//4
+        [],//5
+        [],//6
+        [],//7
+        [],//8
+        [],//9
     ]; 
 
     pegs = [
@@ -70,8 +73,8 @@ function init() {
         [],
     ];
     currentRow = 0;
-    win = false; 
-    secretCode = [0,1,2,3]; 
+    hasWon = false; 
+    secretCode = [3,2,1,0]; 
     // secretCode = [
     //     Math.floor(Math.random()* 6),
     //     Math.floor(Math.random()* 6),
@@ -103,71 +106,40 @@ function renderPegs () {
         rowArr.forEach((cellVal, colIdx) => {
             const pegCellId = `r${rowIdx}p${colIdx}`;
             const pegCellEl = document.getElementById(pegCellId);
-            console.log(pegCellId, pegCellEl)
+            // console.log(pegCellId, pegCellEl)
             pegCellEl.style.backgroundColor = PEGCOLORS[cellVal]
         });
     }); 
 }
 
 function renderHiddenEls () {
-   againBtn.style.visibility = win ? 'visible' :  "hidden";
-   secretCodeCells.forEach(function (cellVal, cellIdx) {
+   againBtn.style.visibility = hasWon ? 'visible' :  "hidden";
+   secretCode.forEach(function (cellVal, cellIdx) {
         const secretCellId = `sc${cellIdx}`
         const secretCellEl = document.getElementById(secretCellId)
-        secretCellEl.style.backgroundColor = win ? COLORS[cellVal] : "#A7ADBA"
-   })
 
+        secretCellEl.style.backgroundColor = hasWon ? COLORS[cellVal] : "#A7ADBA"
+   })
 }
 
 function checkChoice(e) {
-    let secondCheckArray;
-    // console.log(board[currentRow]);
-    board[currentRow].forEach((marble, marbleIndex) => {
-        if (marble === secretCode[marbleIndex]){
+    secretCode.forEach(function (secretValue, secretValueIndex) {
+        if (board[currentRow][secretValueIndex] === secretValue){
             pegs[currentRow].push('2');
-        };
-    });
-    secondCheckArray = board[currentRow].map(function (value, valueIndex) {
-           // console.log(value);
-            if( value !== secretCode[valueIndex]){
-               return value;
-            } else {
-               return null;
-            }
-    //    })
-});
-
-
-    // console.log(secondCheckArray)
-    // attempted bug fix 
-    if (secondCheckArray === null){
-        return;
-    }
-    if (secondCheckArray.includes(secretCode[0])) {
-        pegs[currentRow].push('1');
-    }
-    if (secondCheckArray.includes(secretCode[1])) {
-        pegs[currentRow].push('1');
-    } 
-    if (secondCheckArray.includes(secretCode[2])) {
-        pegs[currentRow].push('1');
-     } 
-    if (secondCheckArray.includes(secretCode[3])) {
-        pegs[currentRow].push('1');
-    }
-    console.log('pegs', pegs[currentRow]);
-    checkWin(); 
+        } else if (board[currentRow].includes(secretValue)){
+            pegs[currentRow].push('1');
+        }
+    }); 
+    hasWon = checkForWin(); 
     currentRow ++; 
     render();
 };
 
-function checkWin () {
-    if (pegs[currentRow] === [2,2,2,2]) {
-        win = true; 
-    // reveal secret code at the top 
-    // render message congrats 
-    // reveal play again button , which will initalise the game over again 
+function checkForWin () {
+    if (pegs[currentRow].toString() === [2, 2, 2, 2].toString()) {
+        return hasWon = true ; 
     }
+    render();
 }
 
 function addColor (e, colorIndex){
@@ -179,9 +151,34 @@ function addColor (e, colorIndex){
 function clearChoice (e) {
    board[currentRow] = [-1, -1, -1, -1];
    render();
-   board[currentRow] = []; 
+   board[currentRow] = [];
 }
 
-
-/// if win = true "congrats ! you did it "
-// if win = false && currentrow > 9 "You couldn't guess the code, hit play again "
+function clearGame (e) {
+    board = [
+        [-1, -1, -1, -1],//0
+        [-1, -1, -1, -1],//1
+        [-1, -1, -1, -1],//2
+        [-1, -1, -1, -1],//3
+        [-1, -1, -1, -1],//4
+        [-1, -1, -1, -1],//5
+        [-1, -1, -1, -1],//6
+        [-1, -1, -1, -1],//7
+        [-1, -1, -1, -1],//8
+        [-1, -1, -1, -1],//9
+    ]; 
+    pegs = [
+        [-1, -1, -1, -1],//0
+        [-1, -1, -1, -1],//1
+        [-1, -1, -1, -1],//2
+        [-1, -1, -1, -1],//3
+        [-1, -1, -1, -1],//4
+        [-1, -1, -1, -1],//5
+        [-1, -1, -1, -1],//6
+        [-1, -1, -1, -1],//7
+        [-1, -1, -1, -1],//8
+        [-1, -1, -1, -1],//9
+    ]
+    render();
+    init(); 
+}
