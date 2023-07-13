@@ -8,17 +8,16 @@ Hi, I'm Nicholas Pogonowski. I'm a SEI student at General Assembly. I am current
  Hope you enjoy !
 
 ## Game Screenshots
+![Imgur](https://i.imgur.com/lNfptqn.png)
 
 
-
-## Technology Used 
+## Technologies Used 
 * JavaScript
 * HTML
 * CSS
 
 ## Getting Started 
-Please click the link below to access the game: 
-(URL)
+Please click the link to access the game: https://napogonowski.github.io/Project-1-Mastermind/
 
 ## Game Rules 
 A secret 4-color code has been set. It is your job to crack the code. To start the game, you must enter a code submission. To do this, you click on the colors in the color selector grid. The order in which you click the colors is the order in which they appear on the grid (going from left to right). 
