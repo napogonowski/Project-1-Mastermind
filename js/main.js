@@ -15,14 +15,12 @@ const PEGCOLORS = {
     '1': 'red',
     '2': 'black'
 }
-
 /*----- state variables -----*/
-let board; // player choices per turn 
-let pegs; // indicating if the choices are included in the secret code 
+let board; 
+let pegs; 
 let currentRow; 
-let hasWon; // 4 positions 
-let secretCode; // code chosen by random computer 
-
+let hasWon; 
+let secretCode; 
 
 /*----- cached elements  -----*/
 const againBtn = document.getElementById('again');
@@ -35,30 +33,26 @@ const secretCodeCells = document.querySelectorAll("div.secret-code > div")
 
 /*----- event listeners -----*/
 againBtn.addEventListener('click', clearGame); 
-// submitting selection
 submitBtn.addEventListener("click", checkChoice);
-//clearing seleciton 
 clearBtn.addEventListener("click", clearChoice);
-
 colorSquares.forEach((colorSquare, colorIndex) => {
     colorSquare.addEventListener("click", (event) => addColor(event, colorIndex))
 }); 
     
 /*----- functions -----*/
 init();
-// initialise all state, then call render; 
 function init() {
     board = [
-        [],//0
-        [],//1
-        [],//2
-        [],//3
-        [],//4
-        [],//5
-        [],//6
-        [],//7
-        [],//8
-        [],//9
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
     ]; 
 
     pegs = [
@@ -88,6 +82,7 @@ function render() {
     renderBoard();
     renderPegs();
     renderHiddenEls();
+    renderMessage();
 }
 
 function renderBoard(){
@@ -106,7 +101,6 @@ function renderPegs () {
         rowArr.forEach((cellVal, colIdx) => {
             const pegCellId = `r${rowIdx}p${colIdx}`;
             const pegCellEl = document.getElementById(pegCellId);
-            // console.log(pegCellId, pegCellEl)
             pegCellEl.style.backgroundColor = PEGCOLORS[cellVal]
         });
     }); 
@@ -114,16 +108,29 @@ function renderPegs () {
 
 function renderHiddenEls () {
    againBtn.style.visibility = hasWon ? 'visible' :  "hidden";
-   secretCode.forEach(function (cellVal, cellIdx) {
+   secretCode.forEach((cellVal, cellIdx) => {
         const secretCellId = `sc${cellIdx}`
         const secretCellEl = document.getElementById(secretCellId)
 
         secretCellEl.style.backgroundColor = hasWon ? COLORS[cellVal] : "#A7ADBA"
+        
    })
 }
+function renderMessage () {
+    if (hasWon === false && currentRow === 0){
+        messageEl.innerText = `Submit a Guess to Start The Game `;
+    } else if (hasWon === false && currentRow > 0 ){
+        messageEl.innerText = `Can You Guess The Code ? `;
+    } else if (hasWon === true){
+        messageEl.innerText = `Congratulations You Cracked the Code !`;
+    } else if (hasWon === false && currentRow >=9){
+        messageEl.innerText = `Unlucky, Try again?`;
+    }
+}
+
 
 function checkChoice(e) {
-    secretCode.forEach(function (secretValue, secretValueIndex) {
+    secretCode.forEach((secretValue, secretValueIndex) => {
         if (board[currentRow][secretValueIndex] === secretValue){
             pegs[currentRow].push('2');
         } else if (board[currentRow].includes(secretValue)){
@@ -136,10 +143,13 @@ function checkChoice(e) {
 };
 
 function checkForWin () {
-    if (pegs[currentRow].toString() === [2, 2, 2, 2].toString()) {
-        return hasWon = true ; 
+    if (pegs[currentRow] === null){
+        return false;
+    } else if (pegs[currentRow].toString() === [2, 2, 2, 2].toString()) {
+        return true ; 
+    }  else {
+        return false;
     }
-    render();
 }
 
 function addColor (e, colorIndex){
@@ -156,28 +166,28 @@ function clearChoice (e) {
 
 function clearGame (e) {
     board = [
-        [-1, -1, -1, -1],//0
-        [-1, -1, -1, -1],//1
-        [-1, -1, -1, -1],//2
-        [-1, -1, -1, -1],//3
-        [-1, -1, -1, -1],//4
-        [-1, -1, -1, -1],//5
-        [-1, -1, -1, -1],//6
-        [-1, -1, -1, -1],//7
-        [-1, -1, -1, -1],//8
-        [-1, -1, -1, -1],//9
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1]
     ]; 
     pegs = [
-        [-1, -1, -1, -1],//0
-        [-1, -1, -1, -1],//1
-        [-1, -1, -1, -1],//2
-        [-1, -1, -1, -1],//3
-        [-1, -1, -1, -1],//4
-        [-1, -1, -1, -1],//5
-        [-1, -1, -1, -1],//6
-        [-1, -1, -1, -1],//7
-        [-1, -1, -1, -1],//8
-        [-1, -1, -1, -1],//9
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1],
+        [-1, -1, -1, -1]
     ]
     render();
     init(); 

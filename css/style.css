@@ -2,11 +2,33 @@
     box-sizing: border-box;
   }
 
+body{
+    background-color: #faf0e6;
+}
+h1 {
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: 42px;
+    margin-bottom: 0px ;
+    letter-spacing: 3px;
 
+    
+}
+h3{
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    font-size: 25px;
+    margin-bottom: 5px;
+    grid-row-start: 2;
+
+}
 
 main{
-display: grid;
-grid-template-columns: 1fr 1fr ;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: 500px 250px;
+    grid-template-rows: 50px 50px;
+    row-gap: 8px;
+    justify-items: center;
+    justify-content: center; 
 }
 
 .full-board{
@@ -14,6 +36,7 @@ grid-template-columns: 1fr 1fr ;
     background-color: #65737E;
     height: 700px;
     width: 450px;
+    grid-row-start: 3;
 }
 
 .secret-code{
@@ -43,7 +66,6 @@ grid-template-columns: 1fr 1fr ;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    gap: 5px;
     justify-content: space-evenly;
     align-items: center;
     
@@ -64,7 +86,6 @@ grid-template-columns: 1fr 1fr ;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(10, 1fr 1fr);
     gap: 5px; 
-    row-gap: 5px;
     justify-items: center;
     margin-top: 10px;
    
@@ -87,24 +108,42 @@ grid-template-columns: 1fr 1fr ;
     grid-template-rows: repeat(5 , 1fr );
     width: 150px;
     height: 250px; 
-    background-color: #65737E;
+    background-color: #A7ADBA;
     border: 5px solid black;
+    grid-row-start: 3;
 }
 
 .color-squares{
     background-color: gray;
-    border-radius: 5%;
-    padding: 3px;
+    border-radius: 4%;
+    padding: 7px 10px;
+    
 }
 #again{
     grid-column: span 2;
+    padding: 10px;
+    border-radius: 10%;
+    transition-duration: 0.4s;
 }
-
+#again:hover{
+    background-color: #bdb76b; /* Green */
+    color: white;
+}
 .buttons{
   grid-row-start: 5;
   border-radius: 10%;
+  padding: 7px 10px;
+  transition-duration: 0.4s;
 }
 
+#clear:hover {
+    background-color: #b22222; /* Green */
+    color: white;
+  }
+#submit:hover {
+    background-color: #006400; /* Green */
+    color: white;
+  }
 
 
 #c0{
