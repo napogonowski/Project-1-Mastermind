@@ -12,15 +12,15 @@ Hi, I'm Nicholas Pogonowski. I'm a SEI student at General Assembly. I am current
 
 
 ## Technologies Used 
-* JavaScript
 * HTML
 * CSS
+* JavaScript
 
 ## Getting Started 
 Please click the link to access the game: https://napogonowski.github.io/Project-1-Mastermind/
 
 ## Game Rules 
-A secret 4-color code has been set. It is your job to crack the code. To start the game, you must enter a code submission. To do this, you click on the colors in the color selector grid. The order in which you click the colors is the order in which they appear on the grid (going from left to right). 
+A secret 4-color code has been set. It is your job to crack the code. To start the game, you must enter a code submission. To do this, click on any of the colors in the color selector grid. The order in which you click the colors is the order in which they appear on the grid (going from left to right). 
 
 If you are happy with your color code, simply press the "Submit Code" button to recieve your clues.  Clues will appear on 4 smaller cells (Pegs) adjacent to your code. They come in 2 varieties:
 
@@ -42,7 +42,7 @@ In theory it seems quite simply. Check the guess array against the secret code. 
 
 My first checking function had 2 parts. The first checked for exact value and index match against the secret code, and the second part checked generally for matching values in the array.  The first problem i ran into was the fucntions overlapped. A correct answer (both in position and color) was being caught in the first check, but as also being caught in the second check. This meant that 1 correct answer was recieving 2 pegs, which is incorrect. 
 
-"Not to worry" i thought naively. After a couple of other attempts to get this working, it occured to me that perhaps i was looking at this wrong. So instead, i checked the Secret code against the players guess and combined my previous two checks, forming a For Each code block As you can see below: 
+After experiementing with different solutions such as using the filter and map method,  it occured to me that perhaps i was looking at this wrong. So instead, I checked the Secret code against the players guess and combined my previous two checks, forming a For Each code block As you can see below: 
 
 ``` JavaScript
 function checkChoice(e) {
@@ -55,14 +55,21 @@ function checkChoice(e) {
     });
 };
 ``` 
-This function was successful in stopping the overlapping, and I gleefully demoed my game, convinced it was finished. During my testing, the secret code was fixed at [0,1,2,3]. However for the project submission, i reinstated the random number generator, and with live conditions, I quickly found another problem. The computer could also have multiples of the same number.  Here we go again. After hours of researching how other, smarter programmers resolved this problem, i figured it would be easier to filter the random numbers to all have unique values and call this saga finished. 
+This function was successful in stopping the overlapping, and also reduced my lines of code significantly. Satisifed with this progress, i moved onto testing the game. 
+
+ In my testing environment, the secret code was fixed at [0,1,2,3], and I was entering in guesses. At the time i didnt realise the confrimation bias this would cause. However for the project submission, I needed to reinstated the random number generator, for the live conditions and I quickly found another problem. The computer could now, also have multiples of the same number. At this point i thought " I should of picked Blackjack instead". After hours of researching how more experienced programmers resolved this problem, and completely breaking my code trying to implement their solutions. i figured it would be a alot easier to leave my code as it was and  write a function to ensure the random numbers to all have unique values and call this saga finished. 
+
+### My key takeaways from dealing with this problem:
+* There are many diffferent ways to solve a problem, and you have to be willing to adapt your approach to what the problem is and what you're trying to achieve.  
+* Sometimes failing can lead you to a next solution.
+* If you have a choice of games to make, dont pick mastermind.
 
 ## Next steps
 
 If i had more time, I would have liked to add a difficulty scale / mode.  This would present the user with an option before the game starts of either Easy/medium/hard.
 
- Their choice would result in: 
- 1.  Change the number of rows being rendered. Either 14 rows for easy. 10 rows for medium.  6 row for hard. 
+ Their choice would: 
+ 1. Change the number of rows being rendered. Either 14 rows for easy. 10 rows for medium.  6 row for hard. 
  2. Change the number of colors on offer. Either 4 colors for easy.  6 colors for medium. 8 colors for hard. 
  
  
