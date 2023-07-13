@@ -1,6 +1,5 @@
 /*----- constants -----*/
 const COLORS = {
-    '': "white", 
     '-1': 'white',
     '0': "#D30000",
     '1': "#0a53c9",
@@ -65,17 +64,30 @@ function init() {
         [],
         [],
         [],
+        [],
     ];
     currentRow = 0;
     hasWon = false; 
-    secretCode = [3,2,1,0]; 
-    // secretCode = [
-    //     Math.floor(Math.random()* 6),
-    //     Math.floor(Math.random()* 6),
-    //     Math.floor(Math.random()* 6),
-    //     Math.floor(Math.random()* 6)
-    // ];
+    secretCode = generateSecretCode();
     render();
+}
+
+function generateSecretCode() {
+    const code = [
+        Math.floor(Math.random()* 6),
+        Math.floor(Math.random()* 6),
+        Math.floor(Math.random()* 6),
+        Math.floor(Math.random()* 6),
+    ];
+
+    const isUnique = code.every((marble, index) => (
+        code.filter((m) => m === marble).length === 1
+    ));
+    if (!isUnique) {
+        return generateSecretCode();
+    }
+
+    return code;
 }
 
 function render() {
@@ -90,10 +102,11 @@ function renderBoard(){
         rowArr.forEach((cellVal, colIdx) => {
             const cellId = `r${rowIdx}m${colIdx}`;
             const cellEl = document.getElementById(cellId);
-            cellEl.style.backgroundColor = COLORS[cellVal]
-        
+            if (cellEl) {
+                cellEl.style.backgroundColor = COLORS[cellVal];
+            }
         });
-    }); 
+    });
 }
 
 function renderPegs () {
@@ -101,29 +114,31 @@ function renderPegs () {
         rowArr.forEach((cellVal, colIdx) => {
             const pegCellId = `r${rowIdx}p${colIdx}`;
             const pegCellEl = document.getElementById(pegCellId);
-            pegCellEl.style.backgroundColor = PEGCOLORS[cellVal]
+            if (pegCellEl) {
+                pegCellEl.style.backgroundColor = PEGCOLORS[cellVal]
+            }
         });
     }); 
 }
 
 function renderHiddenEls () {
-   againBtn.style.visibility = hasWon ? 'visible' :  "hidden";
+   againBtn.style.visibility = hasWon || currentRow > 9 ? 'visible' :  "hidden";
    secretCode.forEach((cellVal, cellIdx) => {
         const secretCellId = `sc${cellIdx}`
         const secretCellEl = document.getElementById(secretCellId)
 
-        secretCellEl.style.backgroundColor = hasWon ? COLORS[cellVal] : "#A7ADBA"
+        secretCellEl.style.backgroundColor = hasWon || currentRow > 9 ? COLORS[cellVal] : "#A7ADBA"
         
    })
 }
 function renderMessage () {
     if (hasWon === false && currentRow === 0){
         messageEl.innerText = `Submit a Guess to Start The Game `;
-    } else if (hasWon === false && currentRow > 0 ){
+    } else if (hasWon === false && currentRow > 0 && currentRow < 9 ){
         messageEl.innerText = `Can You Guess The Code ? `;
     } else if (hasWon === true){
         messageEl.innerText = `Congratulations You Cracked the Code !`;
-    } else if (hasWon === false && currentRow >=9){
+    } else if (hasWon === false && currentRow > 9 ){
         messageEl.innerText = `Unlucky, Try again?`;
     }
 }
@@ -136,9 +151,10 @@ function checkChoice(e) {
         } else if (board[currentRow].includes(secretValue)){
             pegs[currentRow].push('1');
         }
-    }); 
+    });
+
     hasWon = checkForWin(); 
-    currentRow ++; 
+    nextRow(); 
     render();
 };
 
@@ -146,9 +162,18 @@ function checkForWin () {
     if (pegs[currentRow] === null){
         return false;
     } else if (pegs[currentRow].toString() === [2, 2, 2, 2].toString()) {
-        return true ; 
+        return true; 
     }  else {
         return false;
+    }
+}
+
+function nextRow () {
+    if (hasWon === true) {
+        return; 
+    }
+    if (currentRow < 10) {
+        currentRow++; 
     }
 }
 
@@ -175,8 +200,8 @@ function clearGame (e) {
         [-1, -1, -1, -1],
         [-1, -1, -1, -1],
         [-1, -1, -1, -1],
-        [-1, -1, -1, -1]
-    ]; 
+        [-1, -1, -1, -1],
+    ];
     pegs = [
         [-1, -1, -1, -1],
         [-1, -1, -1, -1],
@@ -187,7 +212,7 @@ function clearGame (e) {
         [-1, -1, -1, -1],
         [-1, -1, -1, -1],
         [-1, -1, -1, -1],
-        [-1, -1, -1, -1]
+        [-1, -1, -1, -1],
     ]
     render();
     init(); 

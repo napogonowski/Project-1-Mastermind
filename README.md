@@ -36,25 +36,15 @@ Good luck!
 
 ## Challenges faced during the project
 
-The toughest challenge if faced in this project was getting the "checkChoice" function to work correctly. A vital part of Mastermind is the clue pegs you recieve. These are vital as they infrom your next guess / strategy.  
+The toughest challenge i faced in this project was getting the "checkChoice" function to work correctly. A vital part of Mastermind is the clue pegs you recieve. These are important as they infrom your next guess / strategy.  
 
-In theory it seems quite simply. Check the guess array against the secret code. if a match was found, push values into the peg cells to render the clues. However, as you will discover, it was not so simple. 
+In theory it seems quite simply. Check the guess array against the secret code. if a match was found, push values into the peg cells to render the clues('2' = black peg, '1' = red peg). However, as you will discover, it was not so simple. 
 
 My first checking function had 2 parts. The first checked for exact value and index match against the secret code, and the second part checked generally for matching values in the array.  The first problem i ran into was the fucntions overlapped. A correct answer (both in position and color) was being caught in the first check, but as also being caught in the second check. This meant that 1 correct answer was recieving 2 pegs, which is incorrect. 
 
-"Not to worry" i thought naively. My solution to this problem was replace the first check with a map array method and defining a new array. The new array would recieve the values that didn't exactly match any secret code value, and replace the ones that did with a null value, to insure the index of the guess' remained the same.   This new array would then go through the second check, eliminating any overlap.  This soultion was successful as there was no longer any overlap in peg values and 1 correct guess was receiving only 1 clue. Satisfied with my solution, i demoed the game gleefully, only to run into the next iteration of this Hyrda like problem. 
+"Not to worry" i thought naively. After a couple of other attempts to get this working, it occured to me that perhaps i was looking at this wrong. So instead, i checked the Secret code against the players guess and combined my previous two checks, forming a For Each code block As you can see below: 
 
-```JavaScript
-ExampleSecretArray = [1,2,3,4]
-
-ExampleGuessArray = [1,1,0,0]
-
-ModifiedExampleArray =[null, 1, 0, 0]
-```
-The above code, is a recreation of the next problem i had to tackle. The modified array did in fact remove the "value & index match". However in this example, if the user guessed the number 1 twice, the second check would still give that number a peg clue, despite the secret code only containing a single 1. On the brink of insanity, it occured to me that i would going about the checking process all wrong. Instead of checking the guess code against the secret code, I needed to flip it, check the secret code against the guess and remove the secret values once a match was found. 
-
-```JavaScript
-
+``` JavaScript
 function checkChoice(e) {
     secretCode.forEach((secretValue, secretValueIndex) => {
         if (board[currentRow][secretValueIndex] === secretValue){
@@ -62,16 +52,10 @@ function checkChoice(e) {
         } else if (board[currentRow].includes(secretValue)){
             pegs[currentRow].push('1');
         }
-    }); 
-    hasWon = checkForWin(); 
-    currentRow ++; 
-    render();
+    });
 };
-```
-
-Through this approach, I could also combine both checks and push the values attributed to different ranked clues directly into the pegs array. 
-
-There were a lot of key takeaways from dealing with this problem:  The first being, that there is many different and equally correct ways to approach a problem. And the Second is that sometimes failing can lead you to correct solution. 
+``` 
+This function was successful in stopping the overlapping, and I gleefully demoed my game, convinced it was finished. During my testing, the secret code was fixed at [0,1,2,3]. However for the project submission, i reinstated the random number generator, and with live conditions, I quickly found another problem. The computer could also have multiples of the same number.  Here we go again. After hours of researching how other, smarter programmers resolved this problem, i figured it would be easier to filter the random numbers to all have unique values and call this saga finished. 
 
 ## Next steps
 
