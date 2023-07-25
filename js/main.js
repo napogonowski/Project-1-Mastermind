@@ -89,6 +89,8 @@ function generateSecretCode() {
 
     return code;
 }
+// above function implemented to ensure the secret code has no duplicate values 
+// this assists the checking function, as double values in the secret code result in incorrect clue distripution 
 
 function render() {
     renderBoard();
@@ -188,6 +190,9 @@ function clearChoice (e) {
    render();
    board[currentRow] = [];
 }
+// to get the board back the starting color, i have to set them to -1 which is set to WHITE in CONSTANT COLORS
+// then after this is done, i resest the board to empty arrays so that values can be pushed in
+// the clearGame function operates with the same logic, with the empty arrays being set in the init function 
 
 function clearGame (e) {
     board = [
